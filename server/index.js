@@ -10,7 +10,7 @@ const app = express();
 connectDB();
 
 // middlewares
-app.use(cors({credentials:true, origin:`${process.env.VITE_URL}`}));
+app.use(cors({ credentials: true, origin: process.env.VITE_URL }));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
@@ -19,7 +19,6 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use("/api/user", require("./controllers/User"));
 app.use("/api", require("./controllers/Post"));
 
-
-app.listen(port, ()=>{
-    console.log(`Server running on ${port}`)
+app.listen(port, () => {
+  console.log(`Server running on ${port}`);
 });
