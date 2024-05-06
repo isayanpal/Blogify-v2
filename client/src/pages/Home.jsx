@@ -6,7 +6,7 @@ import heroImg from "../assets/heroImg.png";
 const Home = () => {
   // const { userInfo } = useContext(UserContext);
 
-  const user = userInfo?.username;
+  // const user = userInfo?.username;
   return (
     <div className="flex flex-row items-center justify-around">
       <div className="flex flex-col items-start">
