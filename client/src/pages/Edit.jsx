@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import {useParams, Navigate} from "react-router-dom";
-import Editor from '../components/Editor';
+import React, { useEffect, useState } from "react";
+import { useParams, Navigate } from "react-router-dom";
+import Editor from "../components/Editor";
 
 const Edit = () => {
   const { id } = useParams();
@@ -11,38 +11,38 @@ const Edit = () => {
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
-    fetch('https://localhost:5000/api/post/'+id).then(response => {
-        response.json().then(postInfo => {
-            setTitle(postInfo.title);
-            setContent(postInfo.content);
-            setSummary(postInfo.summary);
-        })
-    })
-}, [])
+    fetch("https://localhost:5000/api/post/" + id).then((response) => {
+      response.json().then((postInfo) => {
+        setTitle(postInfo.title);
+        setContent(postInfo.content);
+        setSummary(postInfo.summary);
+      });
+    });
+  }, []);
 
-async function updatePost(e) {
-  e.preventDefault();
-  const data = new FormData();
-  data.set('title',title);
-  data.set('summary', summary);
-  data.set('id', id);
-  data.set('content', content);
-  if(files?.[0]) {
-      data.set('file', files?.[0]);
-  }
-  const response = await fetch(`http://localhost:5000/api/post`, {
-      method: 'PUT',
-      body:data,
-      credentials: 'include'
-  })
-  if(response.ok) {
+  async function updatePost(e) {
+    e.preventDefault();
+    const data = new FormData();
+    data.set("title", title);
+    data.set("summary", summary);
+    data.set("id", id);
+    data.set("content", content);
+    if (files?.[0]) {
+      data.set("file", files?.[0]);
+    }
+    const response = await fetch(`http://localhost:5000/api/post`, {
+      method: "PUT",
+      body: data,
+      credentials: "include",
+    });
+    if (response.ok) {
       setRedirect(true);
+    }
   }
-}
 
-if(redirect){
-  return <Navigate to={'/post/'+id} />
-}
+  if (redirect) {
+    return <Navigate to={"/post/" + id} />;
+  }
 
   return (
     <div className="flex flex-col items-center gap-[100px]">
@@ -54,7 +54,10 @@ if(redirect){
 
       {/* editor section */}
       <div>
-        <form className="flex flex-col items-start gap-10" onSubmit={updatePost}>
+        <form
+          className="flex flex-col items-start gap-10"
+          onSubmit={updatePost}
+        >
           <input
             className="sm:w-[400px] w-[350px] p-[.5rem] rounded-xl text-black"
             type="title"
@@ -77,7 +80,7 @@ if(redirect){
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Edit
+export default Edit;

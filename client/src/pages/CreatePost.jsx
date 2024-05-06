@@ -1,34 +1,36 @@
-import React, { useState } from 'react'
-import {Navigate} from "react-router-dom"
-import Editor from '../components/Editor';
+import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
+import Editor from "../components/Editor";
+import toast from "react-hot-toast";
 
 const CreatePost = () => {
-  const [title, setTitle] = useState('');
-  const [summary, setSummary] = useState('');
-  const [content, setContent] = useState('');
-  const [files, setFiles] = useState('');
-  const [redirect, setRedirect] = useState(false)
+  const [title, setTitle] = useState("");
+  const [summary, setSummary] = useState("");
+  const [content, setContent] = useState("");
+  const [files, setFiles] = useState("");
+  const [redirect, setRedirect] = useState(false);
 
-  async function createNewPost(e){
+  async function createNewPost(e) {
     const data = new FormData();
-    data.set('title',title);
-    data.set('summary', summary);
-    data.set('content', content);
-    data.set('file', files[0]);
+    data.set("title", title);
+    data.set("summary", summary);
+    data.set("content", content);
+    data.set("file", files[0]);
     e.preventDefault();
-    const response = await fetch('http://localhost:5000/api/post',{
-        method: 'POST',
-        body: data,
-        credentials: 'include',
+    const response = await fetch("http://localhost:5000/api/post", {
+      method: "POST",
+      body: data,
+      credentials: "include",
     });
-    if(response.ok){
-        setRedirect(true)
+    if (response.ok) {
+      setRedirect(true);
+      toast.success("Post created successfully");
     }
-}
+  }
 
-if(redirect){
-  return <Navigate to={'/explore'} />
-}
+  if (redirect) {
+    return <Navigate to={"/explore"} />;
+  }
   return (
     <div className="flex flex-col items-center gap-[100px]">
       <div>
@@ -55,17 +57,15 @@ if(redirect){
             value={summary}
             onChange={(e) => setSummary(e.target.value)}
           />
-          <input type="file" onChange={e =>setFiles(e.target.files)} />
+          <input type="file" onChange={(e) => setFiles(e.target.files)} />
           <Editor onChange={setContent} value={content} />
-          <button
-            className="w-[160px] h-[60px] text-center bg-[var(--primary)] rounded-[20px]"
-          >
+          <button className="w-[160px] h-[60px] text-center bg-[var(--primary)] rounded-[20px]">
             Create Post
           </button>
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CreatePost
+export default CreatePost;

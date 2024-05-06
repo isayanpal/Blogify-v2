@@ -1,76 +1,83 @@
 import React, { useContext, useEffect, useState } from "react";
-import {UserContext} from "../context/UserContext"
+import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-
+import toast from "react-hot-toast";
 
 const SinglePost = () => {
   const [postInfo, setPostInfo] = useState(null);
-  const {userInfo} = useContext(UserContext)
+  const { userInfo } = useContext(UserContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async ()=>{
+    const fetchData = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/api/post/${id}`);
         // console.log(res.data);
-      setPostInfo(res.data);
+        setPostInfo(res.data);
       } catch (error) {
         console.error("Error fetching post:", error);
       }
-    }
+    };
     fetchData();
   }, [id]);
 
-    // delete function
-    const handleDelete = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/api/post/${id}/delete`,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          }
-        );
-        if (response.ok) {
-          navigate("/explore");
-        } else {
-          console.log("Failed to delete post:", await response.text());
+  // delete function
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/post/${id}/delete`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
         }
-      } catch (error) {
-        console.log("Failed to delete post", error);
+      );
+      if (response.ok) {
+        navigate("/explore");
+        toast.success("Post deleted successfully");
+      } else {
+        console.log("Failed to delete post:", await response.text());
       }
-    };
-  
-    if (!postInfo) return "";
+    } catch (error) {
+      console.log("Failed to delete post", error);
+    }
+  };
 
-    const imageSrc = `http://localhost:5000/${postInfo.image}`;
+  if (!postInfo) return "";
+
+  const imageSrc = `http://localhost:5000/${postInfo.image}`;
 
   return (
     <div className="post-page">
       <div className="sm:w-auto p-2">
         <div className="post flex flex-col items-center justify-around">
           <div className="img sm:w-[500px] w-[300px]">
-          <img src={imageSrc} alt="" />
+            <img src={imageSrc} alt="" />
           </div>
-          {userInfo && (
-              userInfo.id === postInfo.author._id && (
-              <div className="flex flex-row gap-4 sm:my-3 my-2">
-                <Link to={`/edit/${postInfo._id}`}>
+          {userInfo && userInfo.id === postInfo.author._id && (
+            <div className="flex flex-row gap-4 sm:my-3 my-2">
+              {/* <Link to={`/edit/${postInfo._id}`}>
                 <button className="p-4 flex items-center justify-center w-32 h-10 rounded-xl bg-[var(--accent)]">Edit</button>
-                </Link>
-                <button className="p-4 flex items-center justify-center w-32 h-10 rounded-xl bg-red-500" onClick={handleDelete}>Delete</button>
-              </div>
-            )
+                </Link> */}
+              <button
+                className="p-4 flex items-center justify-center w-32 h-10 rounded-xl bg-red-500"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+            </div>
           )}
           <div className="text sm:my-5 mt-5 px-3 flex flex-col items-center gap-3">
             <h2 className="text-xl">{postInfo.title}</h2>
             <p className="text-gray-400">
-              by: <span className="text-[var(--text)]">{postInfo.author.username}</span>
+              by:{" "}
+              <span className="text-[var(--text)]">
+                {postInfo.author.username}
+              </span>
             </p>
 
             <div
@@ -81,7 +88,7 @@ const SinglePost = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SinglePost
+export default SinglePost;

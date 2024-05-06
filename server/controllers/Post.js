@@ -2,14 +2,13 @@ const express = require("express");
 const multer = require("multer");
 const jwt = require("jsonwebtoken");
 const Post = require("../models/Post");
-const uploadMiddleware = multer({dest: "/uploads"});
+const uploadMiddleware = multer({ dest: "uploads/" });
 const fs = require("fs");
-
 
 const router = express.Router();
 
-router.post("/post", uploadMiddleware.single("file"), async(req, res)=>{
-    const { originalname, path } = req.file;
+router.post("/post", uploadMiddleware.single("file"), async (req, res) => {
+  const { originalname, path } = req.file;
   const parts = originalname.split(".");
   const ext = parts[parts.length - 1];
   const newPath = path + "." + ext;
@@ -30,9 +29,9 @@ router.post("/post", uploadMiddleware.single("file"), async(req, res)=>{
   });
 });
 
-router.put("/post", uploadMiddleware.single("file"), async(req,res)=>{
-    let newPath = null;
-    if (req.file) {
+router.put("/post", uploadMiddleware.single("file"), async (req, res) => {
+  let newPath = null;
+  if (req.file) {
     const { originalname, path } = req.file;
     const parts = originalname.split(".");
     const ext = parts[parts.length - 1];
@@ -59,11 +58,11 @@ router.put("/post", uploadMiddleware.single("file"), async(req,res)=>{
   });
 });
 
-router.delete("/post/:id/delete",async(req,res)=>{
-    const { id } = req.params;
-    const { token } = req.cookies;
+router.delete("/post/:id/delete", async (req, res) => {
+  const { id } = req.params;
+  const { token } = req.cookies;
 
-    try {
+  try {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decodedToken.id;
 
@@ -78,7 +77,7 @@ router.delete("/post/:id/delete",async(req,res)=>{
     await Post.findByIdAndDelete(id);
 
     if (post.image) {
-        fs.unlinkSync(post.image);
+      fs.unlinkSync(post.image);
     }
 
     res.json({ message: "Post deleted successfully" });
@@ -89,18 +88,18 @@ router.delete("/post/:id/delete",async(req,res)=>{
 });
 
 router.get("/post", async (req, res) => {
-    res.json(
-      await Post.find()
-        .populate("author", ["username"])
-        .sort({ createdAt: -1 })
-        .limit(20)
-    );
+  res.json(
+    await Post.find()
+      .populate("author", ["username"])
+      .sort({ createdAt: -1 })
+      .limit(20)
+  );
 });
 
 router.get("/post/:id", async (req, res) => {
-    const { id } = req.params;
-    const postDoc = await Post.findById(id).populate("author", ["username"]);
-    res.json(postDoc);
+  const { id } = req.params;
+  const postDoc = await Post.findById(id).populate("author", ["username"]);
+  res.json(postDoc);
 });
 
 module.exports = router;

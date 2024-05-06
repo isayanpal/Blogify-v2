@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import{useNavigate} from "react-router-dom"
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const [username, setUserName] = useState("");
@@ -10,16 +10,16 @@ const Register = () => {
 
   async function handleRegister(e) {
     e.preventDefault();
-    const response = await fetch('http://localhost:5000/api/user/register', {
-      method:'POST',
-      body: JSON.stringify({username,email,password}),
-      headers: {'Content-Type':'application/json'},
+    const response = await fetch("http://localhost:5000/api/user/register", {
+      method: "POST",
+      body: JSON.stringify({ username, email, password }),
+      headers: { "Content-Type": "application/json" },
     });
-    if (response.status !== 200){
-      alert('Registration failed');
+    if (response.status !== 200) {
+      toast.error("Registration failed");
       navigate("/login");
     } else {
-      alert('Registraiton Successful')
+      toast.success("Registraiton Successful");
     }
   }
 
@@ -72,7 +72,7 @@ const Register = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

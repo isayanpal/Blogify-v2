@@ -1,30 +1,31 @@
-import React, { useContext, useState } from 'react';
-import {UserContext} from "../context/UserContext";
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useState } from "react";
+import { UserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   // const [redirect, setRedirect] = useState(false);
   const { setUserInfo } = useContext(UserContext);
-const navigate = useNavigate();
-  async function handleLogin(e){
+  const navigate = useNavigate();
+  async function handleLogin(e) {
     e.preventDefault();
-    const response = await fetch('http://localhost:5000/api/user/login', {
-      method: 'POST',
-      body: JSON.stringify({username,password}),
-      headers: {'Content-Type':'application/json'},
-      credentials: 'include',
+    const response = await fetch("http://localhost:5000/api/user/login", {
+      method: "POST",
+      body: JSON.stringify({ username, password }),
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
     });
-    if(response.ok){
-      response.json().then(userInfo => {
+    if (response.ok) {
+      response.json().then((userInfo) => {
         setUserInfo(userInfo);
         // setRedirect(true);
-        navigate("/")
+        navigate("/");
       });
-      
+      toast.success("Logged in successfully");
     } else {
-      alert('Wrong credentials');
+      toast.error("Wrong credentials");
     }
   }
 
@@ -73,7 +74,7 @@ const navigate = useNavigate();
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

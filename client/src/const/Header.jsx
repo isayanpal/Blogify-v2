@@ -1,34 +1,35 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import "boxicons";
-import NavItem from "./NavItem"
-import { Link, useNavigate } from 'react-router-dom';
-import {UserContext} from "../context/UserContext"
+import NavItem from "./NavItem";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
+import toast from "react-hot-toast";
 
 const Header = () => {
-  const {userInfo, setUserInfo} = useContext(UserContext);
+  const { userInfo, setUserInfo } = useContext(UserContext);
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    fetch("http://localhost:5000/api/users/profile",{
-      credentials:"include",
-    }).then((res)=>{
-      res.json().then((userInfo)=>{
+  useEffect(() => {
+    fetch("http://localhost:5000/api/users/profile", {
+      credentials: "include",
+    }).then((res) => {
+      res.json().then((userInfo) => {
         setUserInfo(userInfo);
-      })
-    })
-  },[]);
+      });
+    });
+  }, []);
 
-  function handleLogout(){
-    fetch("http://localhost:5000/api/users/logout",{
-      credentials:"include",
-      method:"POST",
+  function handleLogout() {
+    fetch("http://localhost:5000/api/users/logout", {
+      credentials: "include",
+      method: "POST",
     });
     setUserInfo(null);
     navigate("/login");
+    toast.success("Logged Out");
   }
 
   const user = userInfo?.username;
-
 
   const [open, setOpen] = useState(false);
   const navLinks = [
@@ -105,7 +106,7 @@ const Header = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
