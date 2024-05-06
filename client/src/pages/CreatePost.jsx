@@ -17,7 +17,7 @@ const CreatePost = () => {
     data.set("content", content);
     data.set("file", files[0]);
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/post", {
+    const response = await fetch("https://blogify-v2.onrender.com/api/post", {
       method: "POST",
       body: data,
       credentials: "include",

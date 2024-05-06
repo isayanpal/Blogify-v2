@@ -11,12 +11,15 @@ const Login = () => {
   const navigate = useNavigate();
   async function handleLogin(e) {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/user/login", {
-      method: "POST",
-      body: JSON.stringify({ username, password }),
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    });
+    const response = await fetch(
+      "https://blogify-v2.onrender.com/api/user/login",
+      {
+        method: "POST",
+        body: JSON.stringify({ username, password }),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      }
+    );
     if (response.ok) {
       response.json().then((userInfo) => {
         setUserInfo(userInfo);

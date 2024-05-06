@@ -10,11 +10,14 @@ const Register = () => {
 
   async function handleRegister(e) {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/user/register", {
-      method: "POST",
-      body: JSON.stringify({ username, email, password }),
-      headers: { "Content-Type": "application/json" },
-    });
+    const response = await fetch(
+      "https://blogify-v2.onrender.com/api/user/register",
+      {
+        method: "POST",
+        body: JSON.stringify({ username, email, password }),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
     if (response.status !== 200) {
       toast.error("Registration failed");
       navigate("/login");

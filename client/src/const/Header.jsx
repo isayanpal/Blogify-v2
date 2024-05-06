@@ -10,7 +10,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/users/profile", {
+    fetch("https://blogify-v2.onrender.com/api/users/profile", {
       credentials: "include",
     }).then((res) => {
       res.json().then((userInfo) => {
@@ -20,7 +20,7 @@ const Header = () => {
   }, []);
 
   function handleLogout() {
-    fetch("http://localhost:5000/api/users/logout", {
+    fetch("https://blogify-v2.onrender.com/api/users/logout", {
       credentials: "include",
       method: "POST",
     });
