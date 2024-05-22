@@ -13,8 +13,8 @@ connectDB();
 app.use(
   cors({
     credentials: true,
-    origin: [process.env.VITE_URL],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    origin: process.env.VITE_URL,
+    methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
@@ -25,6 +25,9 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 // routes
 app.use("/api/user", require("./controllers/User"));
 app.use("/api", require("./controllers/Post"));
+
+// Preflight request handling
+app.options("*", cors());
 
 app.listen(port, () => {
   console.log(`Server running on ${port}`);
