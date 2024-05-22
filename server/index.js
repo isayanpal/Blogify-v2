@@ -13,7 +13,7 @@ connectDB();
 app.use(
   cors({
     credentials: true,
-    origin: process.env.VITE_URL,
+    origin: "https://blogify-v2.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
