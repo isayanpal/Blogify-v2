@@ -13,9 +13,9 @@ connectDB();
 app.use(
   cors({
     credentials: true,
-    origin: "https://blogify-v2.vercel.app",
+    origin: process.env.VITE_URL,
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    // allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(express.json());
@@ -27,7 +27,7 @@ app.use("/api/user", require("./controllers/User"));
 app.use("/api", require("./controllers/Post"));
 
 // Preflight request handling
-app.options("*", cors());
+// app.options("*", cors());
 
 app.listen(port, () => {
   console.log(`Server running on ${port}`);

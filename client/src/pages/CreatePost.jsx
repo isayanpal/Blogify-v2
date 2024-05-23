@@ -10,6 +10,8 @@ const CreatePost = () => {
   const [files, setFiles] = useState("");
   const [redirect, setRedirect] = useState(false);
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   async function createNewPost(e) {
     const data = new FormData();
     data.set("title", title);
@@ -17,14 +19,31 @@ const CreatePost = () => {
     data.set("content", content);
     data.set("file", files[0]);
     e.preventDefault();
-    const response = await fetch("https://blogify-v2.onrender.com/api/post", {
-      method: "POST",
-      body: data,
-      credentials: "include",
-    });
-    if (response.ok) {
-      setRedirect(true);
-      toast.success("Post created successfully");
+
+    // const postData = {
+    //   title: title,
+    //   summary: summary,
+    //   content: content,
+    //   file: files[0],
+    // };
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/post`, {
+        method: "POST",
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+        body: data,
+        credentials: "include",
+      });
+      if (response.ok) {
+        setRedirect(true);
+        toast.success("Post created successfully");
+      } else {
+        const errorData = await response.json();
+        toast.error(`Error: ${errorData.message}`);
+      }
+    } catch (error) {
+      toast.error(`Network error: ${error.message}`);
     }
   }
 

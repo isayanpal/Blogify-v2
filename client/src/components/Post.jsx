@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import "boxicons";
 
 const Post = ({ _id, title, summary, image, author }) => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   return (
     <div className="sm:w-[800px] p-2">
       <div className="post flex sm:flex-row flex-col items-center justify-around">
         <div className="img w-[300px]">
-          <img src={`https://blogify-v2.onrender.com/` + image} alt="" />
+          <img src={`${API_BASE_URL}/` + image} alt="" />
         </div>
         <div className="text">
           <h2 className="text-xl text-white">{title}</h2>

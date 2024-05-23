@@ -10,12 +10,12 @@ const SinglePost = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(
-          `https://blogify-v2.onrender.com/api/post/${id}`
-        );
+        const res = await axios.get(`${API_BASE_URL}/api/post/${id}`);
         // console.log(res.data);
         setPostInfo(res.data);
       } catch (error) {
@@ -28,16 +28,13 @@ const SinglePost = () => {
   // delete function
   const handleDelete = async () => {
     try {
-      const response = await fetch(
-        `https://blogify-v2.onrender.com/api/post/${id}/delete`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}/api/post/${id}/delete`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
       if (response.ok) {
         navigate("/explore");
         toast.success("Post deleted successfully");
@@ -51,7 +48,7 @@ const SinglePost = () => {
 
   if (!postInfo) return "";
 
-  const imageSrc = `https://blogify-v2.onrender.com/${postInfo.image}`;
+  const imageSrc = `${API_BASE_URL}/${postInfo.image}`;
 
   return (
     <div className="post-page">

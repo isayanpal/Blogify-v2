@@ -9,8 +9,10 @@ const Header = () => {
   const { userInfo, setUserInfo } = useContext(UserContext);
   const navigate = useNavigate();
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
-    fetch("https://blogify-v2.onrender.com/api/users/profile", {
+    fetch(`${API_BASE_URL}/api/users/profile`, {
       credentials: "include",
     }).then((res) => {
       res.json().then((userInfo) => {
@@ -20,7 +22,7 @@ const Header = () => {
   }, []);
 
   function handleLogout() {
-    fetch("https://blogify-v2.onrender.com/api/users/logout", {
+    fetch(`${API_BASE_URL}/api/users/logout`, {
       credentials: "include",
       method: "POST",
     });

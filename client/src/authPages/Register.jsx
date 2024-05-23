@@ -8,16 +8,15 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   async function handleRegister(e) {
     e.preventDefault();
-    const response = await fetch(
-      "https://blogify-v2.onrender.com/api/user/register",
-      {
-        method: "POST",
-        body: JSON.stringify({ username, email, password }),
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    const response = await fetch(`${API_BASE_URL}api/user/register`, {
+      method: "POST",
+      body: JSON.stringify({ username, email, password }),
+      headers: { "Content-Type": "application/json" },
+    });
     if (response.status !== 200) {
       toast.error("Registration failed");
       navigate("/login");

@@ -9,17 +9,17 @@ const Login = () => {
   // const [redirect, setRedirect] = useState(false);
   const { setUserInfo } = useContext(UserContext);
   const navigate = useNavigate();
+
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   async function handleLogin(e) {
     e.preventDefault();
-    const response = await fetch(
-      "https://blogify-v2.onrender.com/api/user/login",
-      {
-        method: "POST",
-        body: JSON.stringify({ username, password }),
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      }
-    );
+    const response = await fetch(`${API_BASE_URL}/api/user/login`, {
+      method: "POST",
+      body: JSON.stringify({ username, password }),
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
     if (response.ok) {
       response.json().then((userInfo) => {
         setUserInfo(userInfo);
