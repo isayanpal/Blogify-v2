@@ -2,6 +2,11 @@
 
 Blogify is a full-stack web application for creating and managing blog posts. It consists of a client-side developed with React and a server-side built with Node.js and Express.
 
+![image](https://github.com/isayanpal/Blogify-v2/assets/102523492/6d8958f4-5172-49c2-b3e3-718452136016)
+
+![image](https://github.com/isayanpal/Blogify-v2/assets/102523492/5eccf666-e3b2-4d24-be75-9318f9a5474d)
+
+
 ## Tech Stack
 
 ### Frontend
