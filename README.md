@@ -125,3 +125,5 @@ If you want to contribute to Blogify-v2, please follow these steps:
    ```
 
 5. Open a pull request.
+
+## Happy Coding ❤️
